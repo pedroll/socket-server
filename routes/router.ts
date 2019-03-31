@@ -9,10 +9,18 @@ router.get("/mensajes", (req: Request, res: Response) => {
     });
 });
 
-router.post("/mensajes", (req: Request, res: Response) => {
+router.post("/mensajes/:id", (req: Request, res: Response) => {
+
+    // con el body parser recogemos los campos del body del request post
+    const cuerpo = req.body.cuerpo;
+    const de = req.body.de;
+    // recuperameos parametro en url
+    const id = req.params.id;
     res.json({
+        cuerpo,
+        de,
         ok: true,
-        mensaje: "POST esta bien",
+        id,
     });
 });
 
