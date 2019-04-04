@@ -1,14 +1,17 @@
+import bodyParser from 'body-parser';
+import compression from 'compression';
+import cors from 'cors';
+import Debug from 'debug';
+import logger from 'morgan';
+import { Server } from './classes/server';
+import * as environment from './global/enviroment';
+import { router } from './routes/router';
 
-import bodyParser from "body-parser";
-import compression = require("compression");
-import cors from "cors";
-import Debug = require("debug");
-import Server from "./classes/server";
-import * as enviroment from "./global/enviroment";
-import router from "./routes/router";
-const debug = Debug(enviroment.DEBUG);
+const debug = Debug(environment.DEBUG);
 
 const server = new Server();
+
+server.app.use(logger('dev'));
 
 server.app.use(compression());
 
@@ -21,10 +24,10 @@ server.app.use(bodyParser.json());
 server.app.use(cors({origin: true, credentials: true}));
 
 // rutas servicios
-server.app.use("/", router);
+server.app.use('/', router);
 
 server.start (
     () => {
-        debug(`Servidor corriendo en puerto ${enviroment.SERVER_PORT}`);
-    },
+        debug(`Servidor corriendo en puerto ${environment.SERVER_PORT}`);
+    }
 );

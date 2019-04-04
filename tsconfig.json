@@ -50,7 +50,8 @@
       "body-parser",
       "express",
        "debug",
-      "compression"
+      "compression",
+      "nodemailer"
     ],
     /* List of folders to include type definitions from. */
     "types": [
@@ -59,7 +60,8 @@
       "body-parser",
       "express",
       "debug",
-      "compression"
+      "compression",
+      "nodemailer"
     ],
     /* Type declaration files to be included in compilation. */
     // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */

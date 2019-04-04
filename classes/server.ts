@@ -1,19 +1,23 @@
 // import {Express} from "express";
-import express = require("express");
-import * as enviroment from "../global/enviroment";
+import Debug from 'debug';
+import express from 'express';
+import * as environment from '../global/enviroment';
 
-export default class Server {
+const debug = Debug(environment.DEBUG);
 
-    public app: express.Application;
-    public port: number;
+export class Server {
+
+    app: express.Application;
+    port: number;
 
     constructor() {
         this.app = express();
-        this.port = enviroment.SERVER_PORT;
+        this.port = environment.SERVER_PORT;
     }
 
     // en lugar del tipo Function es preferible () =>  void
-    public start(callback: () => void) {
+    start(callback: () => void): void {
+        debug(`servidor iniciado puerto ${this.port}`);
         this.app.listen(this.port, callback);
     }
 
