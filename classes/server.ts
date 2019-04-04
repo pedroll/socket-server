@@ -9,21 +9,13 @@ const debug = Debug(environment.DEBUG);
 
 export class Server {
 
+    private static _instance: Server;
+
     app: express.Application;
     port: number;
 
     io: Socketio.Server;
     private httpServer: http.Server;
-
-    constructor() {
-        this.app = express();
-        this.port = environment.SERVER_PORT;
-
-        // podriamos acerlo con createServer
-        this.httpServer = new http.Server(this.app);
-        this.io = Socketio(this.httpServer);
-        this.escucharSockets();
-    }
 
     // en lugar del tipo Function es preferible () =>  void
     start(callback: () => void): void {
@@ -34,11 +26,27 @@ export class Server {
         this.httpServer.listen(this.port, callback);
     }
 
+    // private para no poder crear instancia  llamando a la clase
+    private constructor() {
+
+        this.app = express();
+        this.port = environment.SERVER_PORT;
+
+        // podriamos acerlo con createServer
+        this.httpServer = new http.Server(this.app);
+        this.io = Socketio(this.httpServer);
+        this.escucharSockets();
+    }
+
+    // ptron singelton para no poder crear nuevas instancias de io
+    static get instance(): Server {
+        return this._instance || (this._instance = new Server());
+    }
+
     private escucharSockets(): void {
         debug('escuchando sockets');
         this.io.on('connection', cliente => {
             debug('nuevo cliente conectado');
         });
     }
-
 }

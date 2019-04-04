@@ -9,7 +9,8 @@ import { router } from './routes/router';
 
 const debug = Debug(environment.DEBUG);
 
-const server = new Server();
+// instacciamos mediante el metodo segun patron singleton
+const server = Server.instance;
 
 server.app.use(logger('dev'));
 
