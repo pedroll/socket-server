@@ -5,6 +5,8 @@ import http from 'http';
 import Socketio from 'socket.io';
 import * as environment from '../global/enviroment';
 
+import * as socket from '../socket/socket';
+
 const debug = Debug(environment.DEBUG);
 
 export class Server {
@@ -46,7 +48,13 @@ export class Server {
     private escucharSockets(): void {
         debug('escuchando sockets');
         this.io.on('connection', cliente => {
-            debug('nuevo cliente conectado');
+
+            debug('Cliente conectado');
+
+            // cliente.on('disconnect', () => {
+            //     debug('Cliente desconectado');
+            // });
+            socket.desconexion(cliente);
         });
     }
 }
