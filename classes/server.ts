@@ -56,7 +56,7 @@ export class Server {
             // });
             socket.desconexion(cliente);
 
-            socket.mensaje(cliente);
+            socket.mensaje(cliente, this.io);
         });
     }
 }
