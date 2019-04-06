@@ -55,6 +55,8 @@ export class Server {
             //     debug('Cliente desconectado');
             // });
             socket.desconexion(cliente);
+
+            socket.mensaje(cliente);
         });
     }
 }
