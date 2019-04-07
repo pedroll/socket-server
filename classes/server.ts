@@ -57,6 +57,8 @@ export class Server {
             socket.desconexion(cliente);
 
             socket.mensaje(cliente, this.io);
+
+            socket.configurerUsuario(cliente, this.io);
         });
     }
 }
