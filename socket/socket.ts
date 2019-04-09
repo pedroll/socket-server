@@ -1,14 +1,23 @@
 import Debug from 'debug';
-import {Socket} from 'socket.io';
+import { Socket } from 'socket.io';
+import { Usuario } from '../classes/usuario';
+import { UsuariosLista } from '../classes/usuarios-lista';
 // import Socketio from 'socket.io';
 import * as environment from '../global/enviroment';
 
 const debug = Debug(environment.DEBUG);
+export const usuariosConectados = new UsuariosLista();
+
+export const conectarCliente = (cliente: Socket) => {
+    const usuario = new Usuario(cliente.id);
+    usuariosConectados.agregarUsuario(usuario);
+};
 
 export const desconexion = (cliente: Socket) => {
 
     cliente.on('disconnect', () => {
-        debug('Cliente desconectado');
+        usuariosConectados.borrarUsuario(cliente.id);
+        debug('Cliente desconectado', cliente.id);
     });
 
 };
@@ -31,8 +40,9 @@ export const configurerUsuario = (cliente: Socket, io: Socket['server']) => {
 
     cliente.on('configurar-usuario', (payload: { nombre: string }, callback: Function) => {
         debug('Configurando Usuario', payload.nombre);
-        // emitimos a todos meno al remitente
-        // io.emit('usuario-nuevo', payload);
+
+        usuariosConectados.actualizarNombre(cliente.id, payload.nombre);
+
         callback({
             ok: true,
             mensaje: `Usuario ${payload.nombre}, configurado`

@@ -49,7 +49,12 @@ export class Server {
         debug('escuchando sockets');
         this.io.on('connection', cliente => {
 
-            debug('Cliente conectado');
+            debug('Cliente conectado id: ', cliente.id);
+            // conectar cliente
+            socket.conectarCliente(cliente);
+
+            // configurar usuario
+            socket.configurerUsuario(cliente, this.io);
 
             // cliente.on('disconnect', () => {
             //     debug('Cliente desconectado');
@@ -58,7 +63,7 @@ export class Server {
 
             socket.mensaje(cliente, this.io);
 
-            socket.configurerUsuario(cliente, this.io);
+
         });
     }
 }
