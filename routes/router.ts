@@ -1,5 +1,6 @@
 import Debug from 'debug';
 import { Request, Response, Router } from 'express';
+import { Socket } from 'socket.io';
 import { Server } from '../classes/server';
 import { enviamail } from '../email/email';
 import * as environment from '../global/enviroment';
@@ -80,5 +81,27 @@ router.post('/enviamail', (req: Request, res: Response) => {
         res.status(200)
             .send();
     }
+
+});
+
+// servicio para obtener todos los ids de los usuarios
+router.get('/usuarios', (req: Request, res: Response) => {
+
+    const server = Server.instance;
+
+    server.io.clients((err: any, clientes: Array<string>) => {
+        if (err) {
+            debug(err);
+            res.json({
+                ok: false,
+                err
+            });
+        }
+
+        res.json({
+            ok: true,
+            clientes
+        });
+    });
 
 });

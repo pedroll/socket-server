@@ -51,7 +51,8 @@
       "express",
        "debug",
       "compression",
-      "nodemailer"
+      "nodemailer",
+      "socket.io"
     ],
     /* List of folders to include type definitions from. */
     "types": [
