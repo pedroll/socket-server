@@ -20,6 +20,14 @@ router.post('/mensajes', (req: Request, res: Response) => {
     const cuerpo = req.body.cuerpo;
     const de = req.body.de;
 
+    const server = Server.instance;
+    const payload = {
+        de,
+        cuerpo
+    };
+    // al recibir por el rest tambien emitimos el evento
+    server.io.emit('mensaje-nuevo', payload);
+
     res.json({
         ok: true,
         cuerpo,
