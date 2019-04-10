@@ -1,5 +1,6 @@
 import Debug from 'debug';
 import { Request, Response, Router } from 'express';
+import { Server } from '../classes/server';
 import { enviamail } from '../email/email';
 import * as environment from '../global/enviroment';
 
@@ -32,9 +33,18 @@ router.post('/mensajes/:id', (req: Request, res: Response) => {
     // con el body parser recogemos los campos del body del request post
     const cuerpo = req.body.cuerpo;
     const de = req.body.de;
-
     // recuperameos parametro en url
     const id = req.params.id;
+
+    const server = Server.instance;
+
+    const payload = {
+        de,
+        cuerpo
+    };
+    server.io.in(id)
+        .emit('mensaje-privado', payload);
+
     res.json({
         cuerpo,
         de,
