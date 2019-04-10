@@ -1,6 +1,6 @@
 import Debug from 'debug';
 import * as environment from '../global/enviroment';
-import {Usuario} from './usuario';
+import { Usuario } from './usuario';
 
 const debug = Debug(environment.DEBUG);
 
