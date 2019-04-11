@@ -1,6 +1,7 @@
 import Debug from 'debug';
 import { Request, Response, Router } from 'express';
 import { Socket } from 'socket.io';
+import { GraficaData } from '../classes/grafica';
 import { Server } from '../classes/server';
 import { UsuariosLista } from '../classes/usuarios-lista';
 import { enviamail } from '../email/email';
@@ -11,6 +12,8 @@ const debug = Debug(environment.DEBUG);
 
 export const router = Router();
 
+const grafica = new GraficaData();
+
 router.get('/', (req: Request, res: Response) => {
     res.json({
         ok: true,
@@ -18,24 +21,25 @@ router.get('/', (req: Request, res: Response) => {
     });
 });
 
-router.post('/mensajes', (req: Request, res: Response) => {
+router.get('/grafica', (req: Request, res: Response) => {
+    res.json(grafica.getDataGrafica());
+});
 
-    const cuerpo = req.body.cuerpo;
-    const de = req.body.de;
+router.post('/grafica', (req: Request, res: Response) => {
 
-    const server = Server.instance;
-    const payload = {
-        de,
-        cuerpo
-    };
+    const mes = req.body.mes;
+    const unidades = Number(req.body.unidades);
+    grafica.incrementarValor(mes, unidades);
+    // const server = Server.instance;
+    // const payload = {
+    //     unidades,
+    //     mes
+    // };
     // al recibir por el rest tambien emitimos el evento
-    server.io.emit('mensaje-nuevo', payload);
+    // server.io.emit('mensaje-nuevo', payload);
 
-    res.json({
-        ok: true,
-        cuerpo,
-        de
-    });
+    res.json(grafica.getDataGrafica());
+
 
 });
 
