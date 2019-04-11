@@ -3,7 +3,6 @@ import { Request, Response, Router } from 'express';
 import { Socket } from 'socket.io';
 import { GraficaData } from '../classes/grafica';
 import { Server } from '../classes/server';
-import { UsuariosLista } from '../classes/usuarios-lista';
 import { enviamail } from '../email/email';
 import * as environment from '../global/enviroment';
 import { usuariosConectados } from '../socket/socket';
@@ -29,18 +28,13 @@ router.post('/grafica', (req: Request, res: Response) => {
 
     const mes = req.body.mes;
     const unidades = Number(req.body.unidades);
+    const server = Server.instance;
+
     grafica.incrementarValor(mes, unidades);
-    // const server = Server.instance;
-    // const payload = {
-    //     unidades,
-    //     mes
-    // };
     // al recibir por el rest tambien emitimos el evento
-    // server.io.emit('mensaje-nuevo', payload);
+    server.io.emit('cambio-grafica', grafica.getDataGrafica());
 
     res.json(grafica.getDataGrafica());
-
-
 });
 
 router.post('/mensajes/:id', (req: Request, res: Response) => {

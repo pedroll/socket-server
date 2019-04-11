@@ -7,7 +7,7 @@ export class GraficaData {
     }
 
     getDataGrafica(): any {
-        return {data: this.valores, label: 'Series A'};
+        return [{data: this.valores, label: 'Series A'}];
     }
 
     incrementarValor(mes: string, valor: number): any {
