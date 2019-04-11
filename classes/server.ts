@@ -59,10 +59,11 @@ export class Server {
             // cliente.on('disconnect', () => {
             //     debug('Cliente desconectado');
             // });
-            socket.desconexion(cliente);
+            socket.desconexion(cliente, this.io);
 
             socket.mensaje(cliente, this.io);
 
+            socket.obtenerrUsuario(cliente, this.io);
 
         });
     }

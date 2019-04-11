@@ -2,10 +2,10 @@ import Debug from 'debug';
 import { Request, Response, Router } from 'express';
 import { Socket } from 'socket.io';
 import { Server } from '../classes/server';
+import { UsuariosLista } from '../classes/usuarios-lista';
 import { enviamail } from '../email/email';
 import * as environment from '../global/enviroment';
 import { usuariosConectados } from '../socket/socket';
-import { UsuariosLista } from "../classes/usuarios-lista";
 
 const debug = Debug(environment.DEBUG);
 
@@ -111,7 +111,6 @@ router.get('/usuarios', (req: Request, res: Response) => {
 // obtener usuarios con nombres y demas
 // servicio para obtener todos los ids de los usuarios
 router.get('/usuarios/detalle', (req: Request, res: Response) => {
-    usuariosConectados.getLista()
 
     res.json({
         ok: true,
