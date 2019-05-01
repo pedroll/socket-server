@@ -2,8 +2,10 @@ import Debug from 'debug';
 import { Socket } from 'socket.io';
 import { Usuario } from '../classes/usuario';
 import { UsuariosLista } from '../classes/usuarios-lista';
+
 // import Socketio from 'socket.io';
 import * as environment from '../global/enviroment';
+import { mapa } from '../routes/router';
 
 const debug = Debug(environment.DEBUG);
 export const usuariosConectados = new UsuariosLista();
@@ -60,6 +62,23 @@ export const obtenerrUsuario = (cliente: Socket, io: Socket['server']) => {
         // emitiendo solo al sender
         io.to(cliente.id)
             .emit('usuarios-activos', usuariosConectados.getLista());
+    });
+
+};
+
+// agregar marcador
+// es necesario el cliente por que es nesario escucharlo
+// y io para emitir al resto
+export const marcadorNuevo = (cliente: Socket) => {
+
+    cliente.on('marcadorNuevo', payload => {
+        debug('Nuevo marcador recibido', payload);
+        mapa.agregarMarcador(payload);
+        // emitimos a todos meno al remitente
+        debug('emitiendo marcadorNuevo', payload);
+        // si volbemos a emitir duplicamos el objeto por que lo escucha el que lo emite
+        // io.emit('marcadorNuevo', payload);
+        cliente.broadcast.emit('marcadorNuevo', payload);
     });
 
 };

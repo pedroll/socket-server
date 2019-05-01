@@ -65,6 +65,9 @@ export class Server {
 
             socket.obtenerrUsuario(cliente, this.io);
 
+            // mapas
+            socket.marcadorNuevo(cliente);
+
         });
     }
 }
