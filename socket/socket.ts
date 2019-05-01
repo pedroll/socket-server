@@ -95,3 +95,15 @@ export const marcadorBorrado = (cliente: Socket) => {
     });
 
 };
+
+export const marcadorMovido = (cliente: Socket) => {
+
+    cliente.on('marcadorMovido', payload => {
+        debug('marcadorMovido recibido', payload);
+        mapa.moverMarcador(payload);
+        // emitimos a todos meno al remitente
+        debug('emitiendo marcadorMovido', payload);
+        cliente.broadcast.emit('marcadorMovido', payload);
+    });
+
+};
