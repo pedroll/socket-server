@@ -80,5 +80,18 @@ export const marcadorNuevo = (cliente: Socket) => {
         // io.emit('marcadorNuevo', payload);
         cliente.broadcast.emit('marcadorNuevo', payload);
     });
+};
+
+export const marcadorBorrado = (cliente: Socket) => {
+
+    cliente.on('marcadorBorrado', payload => {
+        debug('marcadorBorrado recibido', payload);
+        mapa.borrarMarcador(payload);
+        // emitimos a todos meno al remitente
+        debug('emitiendo marcadorBorrado', payload);
+        // si volbemos a emitir duplicamos el objeto por que lo escucha el que lo emite
+        // io.emit('marcadorNuevo', payload);
+        cliente.broadcast.emit('marcadorBorrado', payload);
+    });
 
 };

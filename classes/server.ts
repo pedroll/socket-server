@@ -67,6 +67,7 @@ export class Server {
 
             // mapas
             socket.marcadorNuevo(cliente);
+            socket.marcadorBorrado(cliente);
 
         });
     }
