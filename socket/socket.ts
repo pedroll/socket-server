@@ -1,5 +1,6 @@
 import Debug from 'debug';
 import { Socket } from 'socket.io';
+import {Tickets} from '../classes/tickets';
 import { Usuario } from '../classes/usuario';
 import { UsuariosLista } from '../classes/usuarios-lista';
 
@@ -9,6 +10,8 @@ import { mapa } from '../routes/router';
 
 const debug = Debug(environment.DEBUG);
 export const usuariosConectados = new UsuariosLista();
+
+export const tickets = new Tickets();
 
 export const conectarCliente = (cliente: Socket) => {
     const usuario = new Usuario(cliente.id);
@@ -104,6 +107,18 @@ export const marcadorMovido = (cliente: Socket) => {
         // emitimos a todos meno al remitente
         debug('emitiendo marcadorMovido', payload);
         cliente.broadcast.emit('marcadorMovido', payload);
+    });
+
+};
+
+/// appa tickets
+export const getTickets = (cliente: Socket) => {
+
+    cliente.on('getTickets', () => {
+        debug('getTickets recibido');
+        // emitimos a todos meno al remitente
+        // debug('emitiendo marcadorMovido', payload);
+        // tickets.listaTickets();
     });
 
 };

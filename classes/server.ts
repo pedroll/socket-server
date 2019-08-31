@@ -70,6 +70,8 @@ export class Server {
             socket.marcadorBorrado(cliente);
             socket.marcadorMovido(cliente);
 
+            // tickets
+            socket.getTickets(cliente);
         });
     }
 }

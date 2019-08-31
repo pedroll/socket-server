@@ -4,6 +4,7 @@ import { Socket } from 'socket.io';
 import { GraficaData } from '../classes/grafica';
 import { GraficaData2 } from '../classes/grafica2';
 import { Mapa } from '../classes/mapa';
+import {Tickets} from '../classes/tickets';
 import { Server } from '../classes/server';
 import { enviamail } from '../email/email';
 import * as environment from '../global/enviroment';
@@ -47,6 +48,8 @@ const lugares = [
     }
 ];
 mapa.marcadores.push(...lugares);
+
+const tickets = Tickets.instance;
 
 router.get('/mapa', (req: Request, res: Response) => {
     res.json(mapa.getMarcadores());
@@ -166,4 +169,10 @@ router.get('/usuarios/detalle', (req: Request, res: Response) => {
         ok: true,
         clientes: usuariosConectados.getLista()
     });
+});
+
+// app tickets
+router.get('/tickets', (req: Request, res: Response) => {
+    setTimeout(() => res.json(tickets.getlistaTickets), 6000);
+    // res.json(tickets.getlistaTickets);
 });
